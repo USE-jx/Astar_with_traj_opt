@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<launch>
+      <!-- Publishes the voxel grid to rviz for display -->
+  <node pkg="costmap_2d" type="costmap_2d_markers" name="voxel_visualizer">
+    <remap from="voxel_grid" to="costmap/voxel_grid"/>
+  </node>
+
+    <node name="costmap_node" pkg="costmap_2d" type="costmap_2d_node" >
+        <rosparam file="$(find map_gen)/config/local_costmap.yaml" command="load" ns="costmap" />
+    </node>
+
+</launch>

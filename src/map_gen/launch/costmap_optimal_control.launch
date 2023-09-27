@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<launch>
+    <node name="map_server" pkg="map_server" type="map_server" 
+    args="$(find map_gen)/config/my_map.yaml" />
+
+    <node name="static_tf0" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 /odom /base_link 100"/>
+
+    <!-- <node name="costmap_node" pkg="costmap_2d" type="costmap_2d_node" >
+    <rosparam file="$(find map_gen)/config/global_costmap.yaml" command="load" ns="costmap" />
+    </node> -->
+    <node name="simple_optimal_control" pkg="simple_optimal_control" type="simple_optimal_control" output="screen">
+    <rosparam file="$(find map_gen)/config/global_costmap.yaml" command="load" ns="costmap" />
+    </node>
+    <node pkg="rviz" type="rviz" name="rviz" output="screen"
+      args="-d $(find map_gen)/rviz/map.rviz" >
+    </node>
+
+</launch>

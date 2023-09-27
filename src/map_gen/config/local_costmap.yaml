@@ -1,0 +1,61 @@
+global_frame: odom
+robot_base_frame: base_link
+update_frequency: 5.0
+publish_frequency: 1.0
+transform_tolerance: 0.3  #tf延迟的容忍度
+
+
+#set to true if you want to initialize the costmap from a static map
+static_map: false
+
+#begin - COMMENT these lines if you set static_map to true
+rolling_window: true
+width: 12.0
+height: 12.0
+resolution: 0.1
+#end - COMMENT these lines if you set static_map to true
+origin_x: 0
+origin_y: 0
+
+lethal_cost_threshold: 100
+
+
+#全局滤波 对所有传感器有效
+obstacle_range: 6
+max_obstacle_height: 2.0
+raytrace_range: 8
+
+footprint: [[-0.325, -0.325], [-0.325, 0.325], [0.325, 0.325], [0.3, 0.0], [0.325, -0.325]]
+robot_radius: 0.2
+footprint_padding: 0.01
+
+#膨胀
+inflation_radius: 0.2  #膨胀障碍物多少米
+cost_scaling_factor: 10.0  #从内切圆半径到碰撞半径按指数分配cost
+
+#障碍物
+## 传感器相关
+observation_sources: lidar
+lidar: 
+  topic: /velodyne_points
+  sensor_frame: velodyne   #不写可以自己读取
+  observation_persistence: 0.0 #保留传感器读数多少秒 0表示最近的读数
+  data_type: PointCloud2
+  clearing: true
+  marking: true
+  max_obstacle_height: 1 #略高于机器人
+  min_obstacle_height: 0 #地面
+  obstacle_range: 6 #使用传感器数据把多少米以内的障碍物插入costmap
+  raytrace_range: 6 #追踪地图上多少米以内的障碍物
+  inf_is_valid: false # if true, inf转换成最大的范围值
+
+#START VOXEL STUFF
+map_type: voxel
+origin_z: 0.0
+z_resolution: 0.2
+z_voxels: 10
+unknown_threshold: 10
+mark_threshold: 0
+publish_voxel_map: true
+footprint_clearing_enabled: true  #清除机器人footprint走过的空间
+#END VOXEL STUFF
